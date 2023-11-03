@@ -28,7 +28,21 @@ The User Management Service is implemented using industry-standard best practice
 
 The service is built using java and spring frameworks and libraries that are suitable for secure user management and authentication. It leverages modern cryptographic algorithms and protocols to ensure the confidentiality and integrity of user data.
 
+## Database Schema
 
+```mermaid
+erDiagram
+    USER {
+        BIGINT id
+        VARCHAR firstname
+        VARCHAR lastname
+        VARCHAR email
+        VARCHAR password
+        VARCHAR role
+        BOOLEAN enabled
+    }
+
+```
 
 ## Conclusion
 
