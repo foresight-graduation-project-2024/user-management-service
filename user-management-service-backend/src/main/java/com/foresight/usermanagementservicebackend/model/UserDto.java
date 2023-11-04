@@ -20,12 +20,10 @@ public class UserDto {
     @Length(max=50)
     @Pattern(regexp = "^[A-Za-z]+$")
     private String lastname;
-    @NotBlank(message = "email is required")
-    @NotEmpty()
     @Email(message = "invalid form")
     private String email;
-    @Length(min=8,max=50)
-    //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[^A-Za-z\\d\\s]).+$\n",message = "password should have at least character, number and symbol")
+    @Length(min=8,max=32)
+    @Pattern(regexp ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",message = "password should have character ,number and symbol")
     private String password;
     @NotNull
     private UserRole role;

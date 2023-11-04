@@ -3,29 +3,28 @@ package com.foresight.usermanagementservicebackend.controller;
 
 import com.foresight.usermanagementservicebackend.model.UserDto;
 import com.foresight.usermanagementservicebackend.model.UserUpdateRequest;
-import com.foresight.usermanagementservicebackend.service.AdminService;
+import com.foresight.usermanagementservicebackend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
-    private final AdminService adminService;
+    private final UserService userService;
     @PostMapping
     public void add(@RequestBody @Valid UserDto userDto){
-        adminService.addUser(userDto);
+        userService.addUser(userDto);
     }
     @GetMapping
     public List<UserDto> getAll(){
-       return adminService.getAllUsers();
+       return userService.getAllUsers();
     }
-    @PutMapping("/modify/{id}")
+    @PutMapping("/{id}")
     public void modifyUser(@PathVariable("id") Long id, @RequestBody UserUpdateRequest request){
-        adminService.updateUser(id, request);
+        userService.updateUser(id, request);
     }
 }

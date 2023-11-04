@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AdminService {
+public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
@@ -30,26 +30,20 @@ public class AdminService {
         List<SystemUser> users= userRepo.findAll();
         return users.stream().map(UserMapper::SystemUserToDto).collect(Collectors.toList());
     }
-    public Optional<SystemUser> getUser(Long id){
+    private Optional<SystemUser> getUser(Long id){
         return  userRepo.findById(id);
     }
     public void updateUser(Long id, UserUpdateRequest request){
-        Optional<SystemUser> userOptional = this.getUser(id);
-        if(userOptional.isPresent()) {
-            SystemUser user=userOptional.get();
-            updateFieldIfNotNull(user::setFirstname, request.getFirstname());
-            updateFieldIfNotNull(user::setLastname, request.getLastname());
-            updateFieldIfNotNull(user::setPassword, passwordEncoder.encode(request.getPassword()));
-            updateFieldIfNotNull(user::setEmail, request.getEmail());
-            updateFieldIfNotNull(user::setRole, request.getRole());
-            userRepo.save(user);
-        }
+        Optional<SystemUser> oldUser = this.getUser(id);
+        if(oldUser.isPresent()) {
+            request.setPassword(passwordEncoder.encode(request.getPassword()));
+            Optional<SystemUser> userOptional=Optional.of(request).map(UserMapper::userUpdateRequestToSystemUser);
+            userOptional.get().setId(id);
+            userRepo.save(userOptional.get());
+        }else
+            throw new RuntimeException("user is not found");
 
     }
-    private <T> void updateFieldIfNotNull(Consumer<T> setter, T value) {
-        if (value != null) {
-            setter.accept(value);
-        }
-    }
+
 
 }
