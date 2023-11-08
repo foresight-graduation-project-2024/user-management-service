@@ -44,6 +44,8 @@ public class UserService {
             throw new RuntimeException("user is not found");
 
     }
-
+    public Optional<SystemUser> getUser(String email){
+        return userRepo.findByEmail(email);
+    }
 
 }

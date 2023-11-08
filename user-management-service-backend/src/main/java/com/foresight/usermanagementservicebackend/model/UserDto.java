@@ -27,4 +27,6 @@ public class UserDto {
     private String password;
     @NotNull
     private UserRole role;
+    @NotNull
+    private boolean enabled;
 }
