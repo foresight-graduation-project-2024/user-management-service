@@ -2,12 +2,13 @@ package com.foresight.usermanagementservicebackend.service;
 
 
 import com.foresight.usermanagementservicebackend.entity.SystemUser;
+import com.foresight.usermanagementservicebackend.exception.ErrorCode;
+import com.foresight.usermanagementservicebackend.exception.RuntimeErrorCodedException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
@@ -50,7 +51,7 @@ public class JwtService {
                     .parseClaimsJws(token)
                     .getBody();
         }catch (JwtException e){
-            throw new RuntimeException("invalid token");
+            throw new RuntimeErrorCodedException(ErrorCode.INVALID_AUTHENTICATION_TOKEN);
         }
 
 
