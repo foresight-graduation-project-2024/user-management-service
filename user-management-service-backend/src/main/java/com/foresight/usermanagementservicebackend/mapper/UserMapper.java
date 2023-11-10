@@ -1,22 +1,27 @@
 package com.foresight.usermanagementservicebackend.mapper;
 
 import com.foresight.usermanagementservicebackend.entity.SystemUser;
+import com.foresight.usermanagementservicebackend.model.UserCreateRequest;
 import com.foresight.usermanagementservicebackend.model.UserDto;
 import com.foresight.usermanagementservicebackend.model.UserUpdateRequest;
 
 
 public class UserMapper {
-
-    public static SystemUser userDtoToSystemUser(UserDto userDto){
+    public static SystemUser userCreateRequestToUser(UserCreateRequest request)
+    {
         SystemUser user=new SystemUser();
-        user.setFirstname(userDto.getFirstname());
-        user.setLastname(userDto.getLastname());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setRole(userDto.getRole());
-        user.setEnabled(userDto.isEnabled());
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+        user.setEnabled(request.isEnabled());
         return user;
+
+
     }
+
+
     public static SystemUser userUpdateRequestToSystemUser(UserUpdateRequest userUpdateRequest){
         SystemUser user=new SystemUser();
         user.setFirstname(userUpdateRequest.getFirstname());
@@ -29,10 +34,10 @@ public class UserMapper {
     }
     public static UserDto SystemUserToDto(SystemUser systemUser){
         UserDto userDto=new UserDto();
+        userDto.setId(systemUser.getId());
         userDto.setFirstname(systemUser.getFirstname());
         userDto.setLastname(systemUser.getLastname());
         userDto.setEmail(systemUser.getEmail());
-        userDto.setPassword(systemUser.getPassword());
         userDto.setRole(systemUser.getRole());
         userDto.setEnabled(systemUser.isEnabled());
         return userDto;

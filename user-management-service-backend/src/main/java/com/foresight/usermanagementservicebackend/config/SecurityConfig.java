@@ -1,6 +1,7 @@
 package com.foresight.usermanagementservicebackend.config;
 
 import com.foresight.usermanagementservicebackend.repository.UserRepo;
+import com.foresight.usermanagementservicebackend.security.EmailPasswordAuthenticationProvider;
 import com.foresight.usermanagementservicebackend.security.SystemUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +21,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        http
-                .authorizeHttpRequests((request)-> request.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable);
+                .authorizeHttpRequests((request)-> request.anyRequest().permitAll()).csrf(AbstractHttpConfigurer::disable)
+               .authenticationProvider(authenticationProvider());
         return http.build();
     }
     @Bean
@@ -35,11 +39,9 @@ public class SecurityConfig {
         return new SystemUserDetailsService();
     }
     @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider;
+    public AuthenticationProvider authenticationProvider()
+    {
+        return new EmailPasswordAuthenticationProvider(userDetailsService(),passwordEncoder());
     }
 
     @Bean

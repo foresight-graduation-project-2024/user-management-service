@@ -1,9 +1,12 @@
 package com.foresight.usermanagementservicebackend.service;
 
 import com.foresight.usermanagementservicebackend.entity.SystemUser;
+import com.foresight.usermanagementservicebackend.exception.ErrorCode;
+import com.foresight.usermanagementservicebackend.exception.RuntimeErrorCodedException;
 import com.foresight.usermanagementservicebackend.model.LoginRequest;
 import com.foresight.usermanagementservicebackend.model.LoginResponse;
 import com.foresight.usermanagementservicebackend.model.UserInfo;
+import com.foresight.usermanagementservicebackend.repository.UserRepo;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,21 +22,16 @@ import java.util.jar.JarException;
 @Service
 @RequiredArgsConstructor
 public class LoginService {
-    private final UserService userService;
+    private final UserRepo userRepo;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
     public LoginResponse authenticate(LoginRequest request){
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        if (authenticate.isAuthenticated() ) {
-            Optional<SystemUser> user=userService.getUser(request.getEmail());
-            if(user.get().isEnabled())
-                return new LoginResponse(jwtService.generateToken(user.get()));
-            else
-                throw new RuntimeException("not enabled");
-        } else {
-            throw new RuntimeException("invalid authenticated");
-        }
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        SystemUser user = (SystemUser) authentication.getPrincipal();
+        return new LoginResponse(jwtService.generateToken(user));
+
+
     }
     public UserInfo validate(String token){
         String email = jwtService.extractEmail(token);

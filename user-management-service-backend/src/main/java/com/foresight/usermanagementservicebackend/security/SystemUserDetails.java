@@ -46,4 +46,5 @@ public class SystemUserDetails implements UserDetails {
     public boolean isEnabled() {
         return user.isEnabled();
     }
+    public SystemUser getUser(){return user;}
 }
