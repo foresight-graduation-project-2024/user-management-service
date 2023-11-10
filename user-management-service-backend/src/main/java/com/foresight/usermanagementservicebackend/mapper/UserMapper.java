@@ -14,6 +14,7 @@ public class UserMapper {
         user.setEmail(userDto.getEmail());
         user.setPassword(userDto.getPassword());
         user.setRole(userDto.getRole());
+        user.setEnabled(userDto.isEnabled());
         return user;
     }
     public static SystemUser userUpdateRequestToSystemUser(UserUpdateRequest userUpdateRequest){
@@ -23,6 +24,7 @@ public class UserMapper {
         user.setEmail(userUpdateRequest.getEmail());
         user.setPassword(userUpdateRequest.getPassword());
         user.setRole(userUpdateRequest.getRole());
+        user.setEnabled(userUpdateRequest.isEnabled());
         return user;
     }
     public static UserDto SystemUserToDto(SystemUser systemUser){
@@ -32,6 +34,7 @@ public class UserMapper {
         userDto.setEmail(systemUser.getEmail());
         userDto.setPassword(systemUser.getPassword());
         userDto.setRole(systemUser.getRole());
+        userDto.setEnabled(systemUser.isEnabled());
         return userDto;
     }
 

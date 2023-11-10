@@ -29,4 +29,6 @@ public class SystemUser
     @NotNull
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @NotNull
+    private boolean enabled;
 }
