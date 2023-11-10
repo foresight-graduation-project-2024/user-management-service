@@ -26,7 +26,6 @@ public class UserMapper {
         SystemUser user=new SystemUser();
         user.setFirstname(userUpdateRequest.getFirstname());
         user.setLastname(userUpdateRequest.getLastname());
-        user.setEmail(userUpdateRequest.getEmail());
         user.setPassword(userUpdateRequest.getPassword());
         user.setRole(userUpdateRequest.getRole());
         user.setEnabled(userUpdateRequest.isEnabled());

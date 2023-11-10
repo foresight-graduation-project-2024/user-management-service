@@ -6,6 +6,7 @@ import com.foresight.usermanagementservicebackend.model.UserDto;
 import com.foresight.usermanagementservicebackend.model.UserUpdateRequest;
 import com.foresight.usermanagementservicebackend.service.UserService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     public void modifyUser(@PathVariable("id") Long id, @RequestBody UserUpdateRequest request){
         userService.updateUser(id, request);
     }

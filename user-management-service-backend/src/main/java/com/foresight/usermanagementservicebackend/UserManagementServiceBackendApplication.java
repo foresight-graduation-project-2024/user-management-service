@@ -5,7 +5,6 @@ package com.foresight.usermanagementservicebackend;
 
 import com.foresight.usermanagementservicebackend.entity.UserRole;
 import com.foresight.usermanagementservicebackend.model.UserCreateRequest;
-import com.foresight.usermanagementservicebackend.model.UserDto;
 import com.foresight.usermanagementservicebackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class UserManagementServiceBackendApplication {
     public static void main(String[] args) {
-        //Dotenv.configure().load();
         SpringApplication.run(UserManagementServiceBackendApplication.class, args);
     }
 
@@ -25,7 +23,7 @@ public class UserManagementServiceBackendApplication {
     CommandLineRunner runner(UserService service)
     {
         return (x)->
-                service.addUser(new UserCreateRequest("Abdelrahman","essam","abdo@foresight.com","123456a@", UserRole.BUSINESS_MANAGER,true));
+                service.addUser(new UserCreateRequest("Abdelrahman","essam","abdo@foresight.com","123456aA@", UserRole.BUSINESS_MANAGER,true));
 
     }
 

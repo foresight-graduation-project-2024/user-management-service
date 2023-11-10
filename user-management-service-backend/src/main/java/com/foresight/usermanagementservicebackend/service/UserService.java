@@ -46,6 +46,7 @@ public class UserService {
             request.setPassword(passwordEncoder.encode(request.getPassword()));
             Optional<SystemUser> userOptional=Optional.of(request).map(UserMapper::userUpdateRequestToSystemUser);
             userOptional.get().setId(id);
+            userOptional.get().setEmail(oldUser.getEmail());
             userRepo.save(userOptional.get());
 
 
