@@ -23,8 +23,15 @@ public class UserManagementServiceBackendApplication {
     CommandLineRunner runner(UserService service)
     {
         return (x)->
-                service.addUser(new UserCreateRequest("Abdelrahman","essam","abdo@foresight.com","123456aA@", UserRole.BUSINESS_MANAGER,true));
+                service.addUser(new UserCreateRequest("Abdelrahman","essam","abdo@foresight.com","123456aA@", UserRole.ADMIN,true));
 
     }
 
 }
+
+//TODO make userSummary dto to transfer list of users
+//TODO handle password forgetting scenario
+// TODO user search and filtering functionality
+//TODO email should end with @foresight.com
+// TODO pagination
+// TODO role based functionality
