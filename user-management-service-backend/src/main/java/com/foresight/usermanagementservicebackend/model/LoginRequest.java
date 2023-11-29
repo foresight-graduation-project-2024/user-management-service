@@ -14,8 +14,8 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 public class LoginRequest {
     @Email(message = "invalid form")
-    @Schema(name = "email", example = "ahmed@foresight.com", required = true)
+    @Schema( example = "abdo@foresight.com", required = true)
     private String email;
-    @Schema(name = "password", example = "Aa@123456789", required = true,minLength = 8,maxLength = 32)
+    @Schema( example = "123456aA@", required = true,minLength = 8,maxLength = 32)
     private String password;
 }

@@ -22,14 +22,13 @@ import java.util.jar.JarException;
 @Service
 @RequiredArgsConstructor
 public class LoginService {
-    private final UserRepo userRepo;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
     public LoginResponse authenticate(LoginRequest request){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         SystemUser user = (SystemUser) authentication.getPrincipal();
-        return new LoginResponse(jwtService.generateToken(user));
+        return new LoginResponse(jwtService.generateToken(user),user.getRole());
 
 
     }

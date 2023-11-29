@@ -23,6 +23,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/login")
 @RequiredArgsConstructor
+@CrossOrigin
+
 public class LoginController {
 
 

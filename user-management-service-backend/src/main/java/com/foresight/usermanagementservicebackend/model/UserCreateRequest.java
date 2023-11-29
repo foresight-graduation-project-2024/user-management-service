@@ -16,25 +16,25 @@ public class UserCreateRequest {
     @NotEmpty()
     @Length(max=50)
     @Pattern(regexp = "^[A-Za-z]+$")
-    @Schema(name = "firstname", example = "Abdelrahman", required = true)
+    @Schema(example = "Abdelrahman", required = true)
     private String firstname;
     @NotBlank(message = "lastname is required")
     @NotEmpty()
     @Length(max=50)
     @Pattern(regexp = "^[A-Za-z]+$")
-    @Schema(name = "lastname", example = "Abdelrahman", required = true)
+    @Schema( example = "Abdelrahman", required = true)
     private String lastname;
     @Email(message = "invalid form")
-    @Schema(name = "email", example = "ahmed@foresight.com", required = true)
+    @Schema( example = "ahmed@foresight.com", required = true)
     private String email;
     @Length(min=8,max=32)
     @Pattern(regexp ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",message = "password should have character ,number and symbol")
-    @Schema(name = "password", example = "Aa@123456789", required = true,minLength = 8,maxLength = 32)
+    @Schema( example = "Aa@123456789", required = true,minLength = 8,maxLength = 32)
     private String password;
     @NotNull
-    @Schema(name = "user role", example = " ADMIN", required = true)
+    @Schema( example = " ADMIN", required = true)
     private UserRole role;
     @NotNull
-    @Schema(name = "enabled status", example = "true", required = true)
+    @Schema( example = "true", required = true)
     private boolean enabled;
 }

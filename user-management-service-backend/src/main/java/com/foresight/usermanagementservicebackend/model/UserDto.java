@@ -11,16 +11,16 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    @Schema(name = "user id", example = "1", required = true)
+    @Schema( example = "1", required = true)
     private Long id;
-    @Schema(name = "firstname", example = "Abdelrahman", required = true)
+    @Schema( example = "Abdelrahman", required = true)
     private String firstname;
-    @Schema(name = "lastname", example = "Abdelrahman", required = true)
+    @Schema( example = "Abdelrahman", required = true)
     private String lastname;
-    @Schema(name = "email", example = "ahmed@foresight.com", required = true)
+    @Schema( example = "ahmed@foresight.com", required = true)
     private String email;
-    @Schema(name = "user role", example = " ADMIN", required = true)
+    @Schema( example = " ADMIN", required = true)
     private UserRole role;
-    @Schema(name = "enabled status", example = "true", required = true)
+    @Schema( example = "true", required = true)
     private boolean enabled;
 }
