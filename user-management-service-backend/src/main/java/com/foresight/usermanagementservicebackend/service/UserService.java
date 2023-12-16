@@ -4,13 +4,13 @@ import com.foresight.usermanagementservicebackend.entity.SystemUser;
 import com.foresight.usermanagementservicebackend.exception.ErrorCode;
 import com.foresight.usermanagementservicebackend.exception.RuntimeErrorCodedException;
 import com.foresight.usermanagementservicebackend.mapper.UserMapper;
-import com.foresight.usermanagementservicebackend.model.UserCreateRequest;
-import com.foresight.usermanagementservicebackend.model.UserDto;
-import com.foresight.usermanagementservicebackend.model.UserUpdateRequest;
+import com.foresight.usermanagementservicebackend.model.*;
 import com.foresight.usermanagementservicebackend.repository.UserRepo;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +39,14 @@ public class UserService {
                 .orElseThrow(()-> new RuntimeErrorCodedException(ErrorCode.USER_NOT_FOUND_EXCEPTION));
 
         return  user;
+    }
+
+    public UserDto getUserDto(Long id)
+    {
+        SystemUser user = getUser(id);
+
+
+        return  UserMapper.SystemUserToDto(user);
     }
     public void updateUser(Long id, UserUpdateRequest request){
         SystemUser oldUser = this.getUser(id);
@@ -77,5 +85,11 @@ public class UserService {
         userRepo.save(admin);
 
     }
+    public Page<UserSummary> getAllUsersSummary(Pageable pageable){
+        return userRepo.findAllUserInfo(pageable);
+    }
 
+    public Page<UserSummary> getAllUsersSummaryByCriteria(Pageable pageable, SearchCriteria searchCriteria) {
+        return userRepo.findUSerInfoByCriteria(pageable,searchCriteria);
+    }
 }

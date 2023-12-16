@@ -24,7 +24,7 @@ public class UserCreateRequest {
     @Pattern(regexp = "^[A-Za-z]+$")
     @Schema(name = "lastname", example = "Abdelrahman", required = true)
     private String lastname;
-    @Email(message = "invalid form")
+    @Email(message = "invalid form",regexp="^[A-Za-z0-9._%+$&-]+@foresight\\.com$")
     @Schema(name = "email", example = "ahmed@foresight.com", required = true)
     private String email;
     @Length(min=8,max=32)

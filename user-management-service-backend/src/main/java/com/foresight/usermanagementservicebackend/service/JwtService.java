@@ -2,6 +2,7 @@ package com.foresight.usermanagementservicebackend.service;
 
 
 import com.foresight.usermanagementservicebackend.entity.SystemUser;
+import com.foresight.usermanagementservicebackend.entity.UserRole;
 import com.foresight.usermanagementservicebackend.exception.ErrorCode;
 import com.foresight.usermanagementservicebackend.exception.RuntimeErrorCodedException;
 import io.jsonwebtoken.*;

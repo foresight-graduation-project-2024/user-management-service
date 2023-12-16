@@ -1,18 +1,16 @@
 package com.foresight.usermanagementservicebackend.controller;
 
 
-import com.foresight.usermanagementservicebackend.model.UserCreateRequest;
-import com.foresight.usermanagementservicebackend.model.UserDto;
-import com.foresight.usermanagementservicebackend.model.UserUpdateRequest;
+import com.foresight.usermanagementservicebackend.model.*;
 import com.foresight.usermanagementservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,11 +48,10 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "400", description = "failure check error code in the response for details")
     })
-
-    @GetMapping("/{email}")
-    public UserDto getUser(@PathVariable("email") String email)
+    @GetMapping("/{id}")
+    public UserDto getUser(@PathVariable("id") Long id)
     {
-        return userService.getUserByEmail(email);
+        return userService.getUserDto(id);
     }
 
     @Operation(summary = "update user by its id", description = "replaces this info with user info to be updated")
@@ -95,5 +92,18 @@ public class UserController {
         userService.deactivate(id);
 
 
+    }
+    @Operation(summary = "get all users summary", description = "it takes the page number and the size of data per page as input and returns an overview of users in addition ,information about the page")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "failure check error code in the response for details")
+    })
+    @GetMapping("/{pageNumber}/{size}")
+    public Page<UserSummary> getUsersSummary(@PathVariable("pageNumber")int number,@PathVariable("size")int size){
+        return userService.getAllUsersSummary(PageRequest.of(number, size));
+    }
+    @GetMapping("search/")
+    public Page<UserSummary> getUsersByCriteria(Pageable pageable, SearchCriteria searchCriteria){
+        return userService.getAllUsersSummaryByCriteria(pageable,searchCriteria);
     }
 }

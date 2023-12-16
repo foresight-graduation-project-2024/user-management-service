@@ -17,7 +17,7 @@ public class UserManagementServiceBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserManagementServiceBackendApplication.class, args);
     }
-
+/*
     @Bean
     @Autowired
     CommandLineRunner runner(UserService service)
@@ -26,6 +26,8 @@ public class UserManagementServiceBackendApplication {
                 service.addUser(new UserCreateRequest("Abdelrahman","essam","abdo@foresight.com","123456aA@", UserRole.ADMIN,true));
 
     }
+
+ */
 
 }
 

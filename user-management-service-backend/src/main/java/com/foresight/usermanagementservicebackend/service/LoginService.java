@@ -1,6 +1,7 @@
 package com.foresight.usermanagementservicebackend.service;
 
 import com.foresight.usermanagementservicebackend.entity.SystemUser;
+import com.foresight.usermanagementservicebackend.entity.UserRole;
 import com.foresight.usermanagementservicebackend.exception.ErrorCode;
 import com.foresight.usermanagementservicebackend.exception.RuntimeErrorCodedException;
 import com.foresight.usermanagementservicebackend.model.LoginRequest;
@@ -35,7 +36,7 @@ public class LoginService {
     }
     public UserInfo validate(String token){
         String email = jwtService.extractEmail(token);
-        String role = jwtService.extractRole(token);
+        UserRole role = Enum.valueOf(UserRole.class,jwtService.extractRole(token));
         return new UserInfo(email,role);
     }
 
