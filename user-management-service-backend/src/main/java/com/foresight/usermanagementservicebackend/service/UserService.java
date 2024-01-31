@@ -65,9 +65,9 @@ public class UserService {
 
 
     }
-    public void updatePassword(Long id,String oldPassword,String newPassword){
+    public void updatePassword(Long id,String newPassword){
         SystemUser user=this.getUser(id);
-        if(passwordEncoder.matches(oldPassword, user.getPassword()))
+      //  if(passwordEncoder.matches(oldPassword, user.getPassword()))
             user.setPassword(passwordEncoder.encode(newPassword));
         userRepo.save(user);
     }

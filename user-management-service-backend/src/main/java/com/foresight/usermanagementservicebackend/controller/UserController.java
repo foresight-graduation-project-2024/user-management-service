@@ -119,7 +119,7 @@ public class UserController {
     @PutMapping("/changePassword/{id}")
     public void changePassword(@PathVariable("id") Long id,@RequestBody ChangePasswordRequest changePasswordRequest,@RequestHeader("loggedInUserRole") String userRole){
         checkUserRole(UserRole.ADMIN.toString(),userRole);
-        userService.updatePassword(id, changePasswordRequest.getOldPassword(), changePasswordRequest.getNewPassword());
+        userService.updatePassword(id, changePasswordRequest.getNewPassword());
     }
 
     private void checkUserRole(String wantedRole,String userRole){
