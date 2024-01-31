@@ -8,6 +8,7 @@ public enum ErrorCode {
     INVALID_REQUEST_BODY(4),
     AUTHENTICATION_EXCEPTION(5),
     DEACTIVATED_ACCOUNT(6),
+    UNAUTHORIZED_USER(11),
     UNKNOWN_SERVER_ERROR(100);
 
     private final int code;

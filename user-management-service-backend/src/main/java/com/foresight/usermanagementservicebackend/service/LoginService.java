@@ -29,8 +29,10 @@ public class LoginService {
 
     public LoginResponse authenticate(LoginRequest request){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+
         SystemUser user = (SystemUser) authentication.getPrincipal();
-        return new LoginResponse(jwtService.generateToken(user));
+
+        return new LoginResponse(jwtService.generateToken(user),user.getId(),user.getRole());
 
 
     }

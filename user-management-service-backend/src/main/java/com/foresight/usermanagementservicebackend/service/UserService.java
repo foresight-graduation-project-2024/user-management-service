@@ -5,6 +5,7 @@ import com.foresight.usermanagementservicebackend.exception.ErrorCode;
 import com.foresight.usermanagementservicebackend.exception.RuntimeErrorCodedException;
 import com.foresight.usermanagementservicebackend.mapper.UserMapper;
 import com.foresight.usermanagementservicebackend.model.*;
+import com.foresight.usermanagementservicebackend.rappitmq.UserEventPublisher;
 import com.foresight.usermanagementservicebackend.repository.UserRepo;
 
 import lombok.RequiredArgsConstructor;
@@ -22,12 +23,16 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final UserEventPublisher publisher;
 
     public void addUser(UserCreateRequest request){
        if(userRepo.existsByEmail(request.getEmail()))
            throw new RuntimeErrorCodedException(ErrorCode.EMAIL_ALREADY_EXISTS);
         request.setPassword(passwordEncoder.encode(request.getPassword()));
-        userRepo.save(UserMapper.userCreateRequestToUser(request));
+       SystemUser user =  userRepo.save(UserMapper.userCreateRequestToUser(request));
+
+       publisher.publish(UserMapper.SystemUserToDto(user));
+
     }
     public List<UserDto> getAllUsers(){
         List<SystemUser> users= userRepo.findAll();
@@ -51,13 +56,20 @@ public class UserService {
     public void updateUser(Long id, UserUpdateRequest request){
         SystemUser oldUser = this.getUser(id);
 
-            request.setPassword(passwordEncoder.encode(request.getPassword()));
             Optional<SystemUser> userOptional=Optional.of(request).map(UserMapper::userUpdateRequestToSystemUser);
             userOptional.get().setId(id);
             userOptional.get().setEmail(oldUser.getEmail());
+            userOptional.get().setPassword(oldUser.getPassword());
+            userOptional.get().setEnabled(oldUser.isEnabled());
             userRepo.save(userOptional.get());
 
 
+    }
+    public void updatePassword(Long id,String oldPassword,String newPassword){
+        SystemUser user=this.getUser(id);
+        if(passwordEncoder.matches(oldPassword, user.getPassword()))
+            user.setPassword(passwordEncoder.encode(newPassword));
+        userRepo.save(user);
     }
     public UserDto getUserByEmail(String email)
     {

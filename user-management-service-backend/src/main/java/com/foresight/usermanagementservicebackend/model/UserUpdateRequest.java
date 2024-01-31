@@ -24,14 +24,7 @@ public class UserUpdateRequest {
     @Pattern(regexp = "^[A-Za-z]+$")
     @Schema( example = "Abdelrahman", required = true)
     private String lastname;
-    @Length(min=8,max=32)
-    @Pattern(regexp ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",message = "password should have character ,number and symbol")
-    @Schema( example = "Aa@123456789", required = true,minLength = 8,maxLength = 32)
-    private String password;
     @NotNull
     @Schema( example = " ADMIN", required = true)
     private UserRole role;
-    @NotNull
-    @Schema( example = "true", required = true)
-    private boolean enabled;
 }

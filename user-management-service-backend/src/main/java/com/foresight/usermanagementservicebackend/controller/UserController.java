@@ -1,6 +1,10 @@
 package com.foresight.usermanagementservicebackend.controller;
 
 
+import com.foresight.usermanagementservicebackend.entity.SystemUser;
+import com.foresight.usermanagementservicebackend.entity.UserRole;
+import com.foresight.usermanagementservicebackend.exception.ErrorCode;
+import com.foresight.usermanagementservicebackend.exception.RuntimeErrorCodedException;
 import com.foresight.usermanagementservicebackend.model.*;
 import com.foresight.usermanagementservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@CrossOrigin
 public class UserController {
     private final UserService userService;
 
@@ -28,8 +34,9 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "failure check error code in the response for details")
     })
     @PostMapping
-    public void add(@RequestBody @Valid UserCreateRequest request){
-        userService.addUser(request);
+    public void add(@RequestBody @Valid UserCreateRequest request, @RequestHeader("loggedInUserRole") String userRole){
+            checkUserRole(UserRole.ADMIN.toString(),userRole);
+            userService.addUser(request);
     }
 
     @Operation(summary = "get all users", description = "returns all users no matter they are enabled or not")
@@ -62,7 +69,8 @@ public class UserController {
 
 
     @PutMapping("/{id}")
-    public void modifyUser(@PathVariable("id") Long id, @RequestBody UserUpdateRequest request){
+    public void modifyUser(@PathVariable("id") Long id, @RequestBody UserUpdateRequest request,@RequestHeader("loggedInUserRole") String userRole){
+        checkUserRole(UserRole.ADMIN.toString(),userRole);
         userService.updateUser(id, request);
     }
 
@@ -74,8 +82,9 @@ public class UserController {
 
 
     @PutMapping(path = "/{id}/activate")
-    public void activate(@PathVariable(name = "id") Long id)
+    public void activate(@PathVariable(name = "id") Long id,@RequestHeader("loggedInUserRole") String userRole)
     {
+        checkUserRole(UserRole.ADMIN.toString(),userRole);
         userService.activate(id);
 
 
@@ -87,8 +96,9 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "failure check error code in the response for details")
     })
     @PutMapping(path = "/{id}/deactivate")
-    public void deactivate(@PathVariable(name = "id") Long id)
+    public void deactivate(@PathVariable(name = "id") Long id,@RequestHeader("loggedInUserRole") String userRole)
     {
+        checkUserRole(UserRole.ADMIN.toString(),userRole);
         userService.deactivate(id);
 
 
@@ -102,8 +112,18 @@ public class UserController {
     public Page<UserSummary> getUsersSummary(@PathVariable("pageNumber")int number,@PathVariable("size")int size){
         return userService.getAllUsersSummary(PageRequest.of(number, size));
     }
-    @GetMapping("search/")
+    @GetMapping("/search")
     public Page<UserSummary> getUsersByCriteria(Pageable pageable, SearchCriteria searchCriteria){
         return userService.getAllUsersSummaryByCriteria(pageable,searchCriteria);
+    }
+    @PutMapping("/changePassword/{id}")
+    public void changePassword(@PathVariable("id") Long id,@RequestBody ChangePasswordRequest changePasswordRequest,@RequestHeader("loggedInUserRole") String userRole){
+        checkUserRole(UserRole.ADMIN.toString(),userRole);
+        userService.updatePassword(id, changePasswordRequest.getOldPassword(), changePasswordRequest.getNewPassword());
+    }
+
+    private void checkUserRole(String wantedRole,String userRole){
+        if(!(wantedRole.equals(userRole)))
+            throw new RuntimeErrorCodedException(ErrorCode.UNAUTHORIZED_USER);
     }
 }

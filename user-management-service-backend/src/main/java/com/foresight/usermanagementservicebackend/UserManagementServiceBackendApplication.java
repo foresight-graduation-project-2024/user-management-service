@@ -6,6 +6,7 @@ package com.foresight.usermanagementservicebackend;
 import com.foresight.usermanagementservicebackend.entity.UserRole;
 import com.foresight.usermanagementservicebackend.model.UserCreateRequest;
 import com.foresight.usermanagementservicebackend.service.UserService;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,11 +14,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@EnableRabbit
 public class UserManagementServiceBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserManagementServiceBackendApplication.class, args);
     }
-/*
     @Bean
     @Autowired
     CommandLineRunner runner(UserService service)
@@ -37,7 +38,7 @@ public class UserManagementServiceBackendApplication {
 
     }
 
- */
+
 
 }
 
