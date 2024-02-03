@@ -19,8 +19,8 @@ public interface UserRepo extends JpaRepository<SystemUser,Long>
 {
     Optional<SystemUser>findByEmail(String email);
     Boolean existsByEmail(String email);
-    @Query(value = "select new com.foresight.usermanagementservicebackend.model.UserSummary(u.id,u.firstname,u.lastname) from SystemUser u order by u.id")
+    @Query(value = "select new com.foresight.usermanagementservicebackend.model.UserSummary(u.id,u.firstname,u.lastname,u.email,u.role,u.enabled) from SystemUser u order by u.id")
     Page<UserSummary> findAllUserInfo(Pageable pageable);
-    @Query("select new com.foresight.usermanagementservicebackend.model.UserSummary(u.id,u.firstname,u.lastname) from SystemUser u where lower(u.firstname) like COALESCE(concat('%',:#{#sc.firstname},'%') ,u.firstname) and lower(u.lastname) like COALESCE(concat('%',:#{#sc.lastname},'%'),u.lastname) and u.email like COALESCE(concat('%',:#{#sc.email},'%'),u.email)  and u.role=COALESCE(:#{#sc.role},u.role) and  u.enabled=COALESCE(:#{#sc.enabled},u.enabled)")
+    @Query("select new com.foresight.usermanagementservicebackend.model.UserSummary(u.id,u.firstname,u.lastname,u.email,u.role,u.enabled) from SystemUser u where lower(u.firstname) like COALESCE(concat('%',:#{#sc.firstname},'%') ,u.firstname) and lower(u.lastname) like COALESCE(concat('%',:#{#sc.lastname},'%'),u.lastname) and u.email like COALESCE(concat('%',:#{#sc.email},'%'),u.email)  and u.role=COALESCE(:#{#sc.role},u.role) and  u.enabled=COALESCE(:#{#sc.enabled},u.enabled)")
     Page<UserSummary> findUSerInfoByCriteria(Pageable pageable, @Param("sc") SearchCriteria searchCriteria);
 }
