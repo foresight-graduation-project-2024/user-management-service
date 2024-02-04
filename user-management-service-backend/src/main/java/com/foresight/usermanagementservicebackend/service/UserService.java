@@ -104,4 +104,8 @@ public class UserService {
     public Page<UserSummary> getAllUsersSummaryByCriteria(Pageable pageable, SearchCriteria searchCriteria) {
         return userRepo.findUSerInfoByCriteria(pageable,searchCriteria);
     }
+
+    public void loadUsers(List<SystemUser> users) {
+        userRepo.saveAll(users);
+    }
 }

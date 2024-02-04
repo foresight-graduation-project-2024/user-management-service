@@ -6,6 +6,7 @@ import com.foresight.usermanagementservicebackend.entity.UserRole;
 import com.foresight.usermanagementservicebackend.exception.ErrorCode;
 import com.foresight.usermanagementservicebackend.exception.RuntimeErrorCodedException;
 import com.foresight.usermanagementservicebackend.model.*;
+import com.foresight.usermanagementservicebackend.repository.UserRepo;
 import com.foresight.usermanagementservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,8 +27,6 @@ import java.util.List;
 @CrossOrigin
 public class UserController {
     private final UserService userService;
-
-
     @Operation(summary = "register new user", description = "adds new user to the system and returns nothing after adding it")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
@@ -125,5 +124,9 @@ public class UserController {
     private void checkUserRole(String wantedRole,String userRole){
         if(!(wantedRole.equals(userRole)))
             throw new RuntimeErrorCodedException(ErrorCode.UNAUTHORIZED_USER);
+    }
+    @PostMapping("/load")
+    public void loadUsers(@RequestBody List<SystemUser> users){
+        userService.loadUsers(users);
     }
 }
